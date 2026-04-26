@@ -66,7 +66,7 @@ export const products = [
         inStock: true,   // IMPORTANT for you
         slug:"oud-nirvana",
     },
-]
+].sort((a,b)=> a.name.localeCompare(b.name))
 
 // Optional note 
 // {

@@ -557,6 +557,9 @@ import emailjs from "@emailjs/browser";
 import { products } from "./products";
 import "./App.css";
 
+import heroVideo from './heroVid.mp4';
+
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -611,6 +614,16 @@ function AppLayout() {
   const location = useLocation();
   const navigate = useNavigate();
 
+  function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
   const isProductPage = location.pathname.startsWith("/product/");
   const isCheckoutPage = location.pathname.startsWith("/checkout");
   const isTermsPage = location.pathname.startsWith("/terms");
@@ -648,6 +661,7 @@ function AppLayout() {
       {toastMsg && <Toast message={toastMsg} />}
 
       <main className="page">
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
 
@@ -817,33 +831,53 @@ function Footer() {
 
 /* ========== PAGES ========== */
 
+
+// import heroVideo from "../assets/hero.mp4"; // download & place in assets
+
 function Home() {
   return (
     <section className="home text-page">
-      <div className="hero">
-        <p className="eyebrow">Luxury-inspired fragrance</p>
-        <h1>RAJA Fragrance</h1>
-        <p className="hero-text">
-          Bold, long-lasting scents crafted to feel premium, confident, and unforgettable.
-          Discover fragrances that move with you from day to night.
-        </p>
-        <div className="hero-actions">
-          <Link className="btn primary" to="/shop">Shop Now</Link>
-          <Link className="btn secondary" to="/about">Our Story</Link>
+      
+      {/* HERO */}
+      <div id="hero">
+        <video className="video-bg" autoPlay muted loop>
+          <source src={heroVideo} type="video/mp4" />
+        </video>
+
+        <div className="overlay"></div>
+
+        <div className="hero-content">
+          <p className="eyebrow">Luxury-inspired fragrance</p>
+
+          <h1>RAJA Fragrance</h1>
+
+          <p className="hero-text">
+            Bold, long-lasting scents crafted to feel premium, confident, and unforgettable.
+            Discover fragrances that move with you from day to night.
+          </p>
+
+          <div className="hero-actions">
+            <Link className="btn primary" to="/shop">Shop Now</Link>
+            <Link className="btn secondary" to="/about">Our Story</Link>
+          </div>
         </div>
       </div>
 
+      {/* WHY */}
       <section className="home-block">
         <h2>Why choose RAJA?</h2>
+
         <div className="feature-grid">
           <article className="feature-card">
             <h3>Long-lasting scent</h3>
             <p>Designed for strong projection and all-day wear.</p>
           </article>
+
           <article className="feature-card">
             <h3>Premium feel</h3>
             <p>Elegant fragrance choices with a luxury-inspired finish.</p>
           </article>
+
           <article className="feature-card">
             <h3>Easy to wear</h3>
             <p>Perfect for daily use, evenings, and special occasions.</p>
@@ -851,6 +885,7 @@ function Home() {
         </div>
       </section>
 
+      {/* PROMISE */}
       <section className="home-block split-block">
         <div>
           <h2>Our promise</h2>
@@ -859,6 +894,7 @@ function Home() {
             experience from browsing to checkout.
           </p>
         </div>
+
         <div className="promise-box">
           <p>• Luxury-inspired fragrances</p>
           <p>• Gold and silver brand style</p>
@@ -866,26 +902,32 @@ function Home() {
         </div>
       </section>
 
+      {/* COLLECTION */}
       <section className="home-block">
         <h2>Featured collection</h2>
         <p>Explore a small selection of our most popular scents.</p>
         <Link className="link" to="/shop">Go to shop</Link>
       </section>
 
+      {/* FAQ */}
       <section className="home-block faq-block">
         <h2>Quick FAQ</h2>
+
         <div className="faq-item">
           <h3>How do orders work?</h3>
           <p>You place an order request, then payment is arranged afterwards.</p>
         </div>
+
         <div className="faq-item">
           <h3>How is delivery handled?</h3>
           <p>Orders are processed manually and shipped via Royal Mail.</p>
         </div>
       </section>
+
     </section>
   );
 }
+
 
 function Shop({ products, setCart }) {
   const [search, setSearch] = useState("");
