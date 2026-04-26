@@ -981,19 +981,27 @@ function Product({ products, setCart, setToastMsg }) {
   const { id, name, image, color, description, price, inStock } = product;
 
   function addToCart(item) {
-    setCart((prev) => {
-      const existing = prev.find((p) => p.id === item.id);
-      if (existing) {
-        return prev.map((p) =>
-          p.id === item.id ? { ...p, quantity: p.quantity + 1 } : p
-        );
-      }
-      return [...prev, { ...item, quantity: 1 }];
-    });
-    setToastMsg({
-      message:"Item added to cart 🛒",
-      type: 'info'
-    });
+    if (!inStock){
+      setToastMsg({
+          message:'Item Out of Stock',
+          type: 'error'
+      })
+    } else{
+        setCart((prev) => {
+          const existing = prev.find((p) => p.id === item.id);
+          if (existing) {
+            return prev.map((p) =>
+              p.id === item.id ? { ...p, quantity: p.quantity + 1 } : p
+            );
+          }
+          return [...prev, { ...item, quantity: 1 }];
+        });
+        setToastMsg({
+          message:"Item added to cart 🛒",
+          type: 'info'
+        }
+      );
+    }
   }
 
   return (
@@ -1036,7 +1044,7 @@ function Product({ products, setCart, setToastMsg }) {
 
         <button
           onClick={() => addToCart(product)}
-          disabled={!inStock}
+          // disabled={!inStock}
           className="btn primary"
         >
           {inStock ? "Add to cart" : "Out of stock"}
