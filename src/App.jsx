@@ -1,68 +1,11 @@
-// import { BrowserRouter, Routes, Route, Link,useParams,useNavigate,useLocation } from "react-router-dom";
-// import React,{ useState ,useEffect,useRef} from "react";
-// import { products } from "./products";
-// import "./App.css";
-// import emailjs from "@emailjs/browser";
 
-
-
-// /* =======================
-// APP (State Owner)
-// ======================= */
-
-// export default function App(){
-//   return(
-//     <BrowserRouter>
-//       <AppLayout />
-//     </BrowserRouter>
-//   )
-// }
-
-// function AppLayout() {
-//   // Cart state lives at the top level
-//   // This is the SINGLE source of truth for cart data 
-//   // const [cart,setCart] = useState([]);
-
-  
-//   // Uncomment to Store in Localstorage 👇
-//   const [cart, setCart] = useState(() => {
-//     const saved = localStorage.getItem("cart");
-
-//     return saved ? JSON.parse(saved) : [];
-//   });
-
-//   useEffect(() => {
-//     localStorage.setItem('cart',JSON.stringify(cart))
-//   },[cart]);
-
-
-
-
-//   // // // // // // // // // // // // // // // // //
-//   // Toast state is empty
-  
-//   const [toastMsg, setToastMsg] = useState(null);
-//   //  Basically if toastmsg changes wait 2 secs then change it back to null again
-//   useEffect(() => {
-//     if (!toastMsg) return;
-
-//     const id = setTimeout(() => {
-//       setToastMsg(null);
-//     }, 5000);
-
-//     return () => clearTimeout(id);
-//   }, [toastMsg]);
-
-//   // // // // // // // // /// /// // // // // // // 
-
-
-
-//   // Total depends on cart therefore no useState
-//   const total = cart.reduce((prevValue, item)=> prevValue + (item.price * item.quantity),0).toFixed(2);
-//   const cartCount = cart.reduce((sum,item)=>sum+item.quantity,0)
-
-//   // Navigation control to go back
-//   const location = useLocation();
+    
+    //   
+    //   const total = cart.reduce((prevValue, item)=> prevValue + (item.price * item.quantity),0).toFixed(2);
+    //   const cartCount = cart.reduce((sum,item)=>sum+item.quantity,0)
+    
+    //   // Navigation control to go back
+    //   const location = useLocation();
 //   const navigate = useNavigate();
 
 //   // Pages we don't want nav bar in and wanna replace with back
@@ -71,11 +14,11 @@
 //   const isTermsPage = location.pathname.startsWith("/terms");
 
 //   return (
-//     <>
-//       {/* Navbar only needs the COUNT, not full cart */}
-//       {isProductPage || isCheckoutPage || isTermsPage ? (
-//         <>
-//         <button className="back" onClick={() => navigate(-1)}><span ></span> Back</button>
+  //     <>
+  //       {/* Navbar only needs the COUNT, not full cart */}
+  //       {isProductPage || isCheckoutPage || isTermsPage ? (
+    //         <>
+    //         <button className="back" onClick={() => navigate(-1)}><span ></span> Back</button>
 //         <span className="nav_cart_total" >
 //           <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="icon" viewBox="0 0 16 16">
 //             <path d="M11.354 6.354a.5.5 0 0 0-.708-.708L8 8.293 6.854 7.146a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"/>
@@ -85,15 +28,15 @@
 //           <p>| £{total}</p>
 //         </span>
 //         </>
-        
+
 //       ) : (
-//         <Navbar cartCount={cartCount} cartTotal={total}/>
-//       )}
-//       {toastMsg && <Toast message={toastMsg} />}
-
-
-//       <Routes>
-//         {/* Static pages */}
+  //         <Navbar cartCount={cartCount} cartTotal={total}/>
+  //       )}
+  //       {toastMsg && <Toast message={toastMsg} />}
+  
+  
+  //       <Routes>
+  //         {/* Static pages */}
 //         <Route path="/" element={<Home />} />
 
 //         {/* Shop displays all products */}
@@ -108,13 +51,14 @@
 //         <Route
 //           path="/product/:slug"
 //           element={
-//             <Product
-//               products={products}
+  //             <Product
+  //               products={products}
 //               setCart={setCart}
 //               setToastMsg={setToastMsg}
 //             />
 //           }
 //         />
+
 
 
 //         {/* Cart page ONLY reads cart */}
@@ -596,6 +540,8 @@
 // }
 
 
+// @ REAL CODE 
+
 
 import React, { useState, useEffect, useRef } from "react";
 import {
@@ -619,27 +565,47 @@ export default function App() {
   );
 }
 
+
+// /* =======================
+// APP (State Owner)
+// ======================= */
+
 function AppLayout() {
+
+  // Cart state lives at the top level
+  // This is the SINGLE source of truth for cart data 
   const [cart, setCart] = useState(() => {
+
+    // Uncomment to Store in Localstorage 👇
     const saved = localStorage.getItem("cart");
+
     return saved ? JSON.parse(saved) : [];
   });
 
   useEffect(() => {
+
     localStorage.setItem("cart", JSON.stringify(cart));
+
   }, [cart]);
 
-  const [toastMsg, setToastMsg] = useState(null);
+  const [toastMsg, setToastMsg] = useState(null); // Toast state is empty
 
+  
   useEffect(() => {
-    if (!toastMsg) return;
-    const id = setTimeout(() => setToastMsg(null), 5000);
-    return () => clearTimeout(id);
-  }, [toastMsg]);
+    //  Basically if toastmsg changes wait 5 secs then change it back to null again
 
-  const total = cart
-    .reduce((prev, item) => prev + item.price * item.quantity, 0)
-    .toFixed(2);
+    if (!toastMsg) return;
+
+    const id = setTimeout(() => setToastMsg(null), 5000);
+
+    return () => clearTimeout(id);
+
+  }, [toastMsg]); // Only Triggered when a msg is passed in
+
+  // Total depends on cart therefore no useState
+  const total = cart.reduce((prev, item) => prev + item.price * item.quantity, 0).toFixed(2);
+  
+  // CartCount counts amount of items in basket
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   const location = useLocation();
@@ -673,7 +639,10 @@ function AppLayout() {
           </span>
         </>
       ) : (
-        <Navbar cartCount={cartCount} cartTotal={total} />
+        <>
+          <Navbar cartCount={cartCount} cartTotal={total} />
+          <Footer />
+        </>
       )}
 
       {toastMsg && <Toast message={toastMsg} />}
@@ -738,11 +707,31 @@ function Navbar({ cartCount, cartTotal }) {
         <Link to="/">Home</Link>
         <Link to="/about">About</Link>
         <Link to="/shop">Shop</Link>
-        <Link to="/contact">Contact</Link>
+        {/* <Link to="/contact">Contact</Link> */}
         <Link to="/cart">Cart</Link>
       </nav>
 
-      <nav className="nav-links mobile">
+      <span id="nav_cart_total">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="1em"
+          height="1em"
+          fill="currentColor"
+          className="icon"
+          viewBox="0 0 16 16"
+        >
+          <path d="M11.354 6.354a.5.5 0 0 0-.708-.708L8 8.293 6.854 7.146a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z" />
+          <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+        </svg>
+        <p id="cartNotif">{cartCount}</p>
+        <p>| £{cartTotal}</p>
+      </span>
+    </header>
+  );
+}
+function Footer() {
+  return(
+  <nav className="footer mobile nav-links  navbar">
         <Link to="/">
           {/* home icon */}
           <svg
@@ -789,9 +778,9 @@ function Navbar({ cartCount, cartTotal }) {
           </svg>
         </Link>
 
-        <Link to="/contact">
+        {/* <Link to="/contact"> */}
           {/* phone icon */}
-          <svg
+          {/* <svg
             xmlns="http://www.w3.org/2000/svg"
             width="1em"
             height="1em"
@@ -801,7 +790,7 @@ function Navbar({ cartCount, cartTotal }) {
           >
             <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58z" />
           </svg>
-        </Link>
+        </Link> */}
 
         <Link to="/cart">
           {/* cart icon */}
@@ -823,40 +812,77 @@ function Navbar({ cartCount, cartTotal }) {
           </svg>
         </Link>
       </nav>
-
-      <span id="nav_cart_total">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="1em"
-          height="1em"
-          fill="currentColor"
-          className="icon"
-          viewBox="0 0 16 16"
-        >
-          <path d="M11.354 6.354a.5.5 0 0 0-.708-.708L8 8.293 6.854 7.146a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z" />
-          <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
-        </svg>
-        <p id="cartNotif">{cartCount}</p>
-        <p>| £{cartTotal}</p>
-      </span>
-    </header>
-  );
+  )
 }
 
 /* ========== PAGES ========== */
 
 function Home() {
   return (
-    <section className="home">
-      <h1>Welcome to RAJA Fragrance</h1>
-      <p>Browse our products!</p>
-      <Link className="btn primary" to="/shop">
-        Shop Now
-      </Link>
-      <h2>Featured products</h2>
-      <Link className="link" to="/about">
-        Learn more
-      </Link>
+    <section className="home text-page">
+      <div className="hero">
+        <p className="eyebrow">Luxury-inspired fragrance</p>
+        <h1>RAJA Fragrance</h1>
+        <p className="hero-text">
+          Bold, long-lasting scents crafted to feel premium, confident, and unforgettable.
+          Discover fragrances that move with you from day to night.
+        </p>
+        <div className="hero-actions">
+          <Link className="btn primary" to="/shop">Shop Now</Link>
+          <Link className="btn secondary" to="/about">Our Story</Link>
+        </div>
+      </div>
+
+      <section className="home-block">
+        <h2>Why choose RAJA?</h2>
+        <div className="feature-grid">
+          <article className="feature-card">
+            <h3>Long-lasting scent</h3>
+            <p>Designed for strong projection and all-day wear.</p>
+          </article>
+          <article className="feature-card">
+            <h3>Premium feel</h3>
+            <p>Elegant fragrance choices with a luxury-inspired finish.</p>
+          </article>
+          <article className="feature-card">
+            <h3>Easy to wear</h3>
+            <p>Perfect for daily use, evenings, and special occasions.</p>
+          </article>
+        </div>
+      </section>
+
+      <section className="home-block split-block">
+        <div>
+          <h2>Our promise</h2>
+          <p>
+            We keep things simple: quality scents, clear presentation, and a smooth shopping
+            experience from browsing to checkout.
+          </p>
+        </div>
+        <div className="promise-box">
+          <p>• Luxury-inspired fragrances</p>
+          <p>• Gold and silver brand style</p>
+          <p>• Simple order request checkout</p>
+        </div>
+      </section>
+
+      <section className="home-block">
+        <h2>Featured collection</h2>
+        <p>Explore a small selection of our most popular scents.</p>
+        <Link className="link" to="/shop">Go to shop</Link>
+      </section>
+
+      <section className="home-block faq-block">
+        <h2>Quick FAQ</h2>
+        <div className="faq-item">
+          <h3>How do orders work?</h3>
+          <p>You place an order request, then payment is arranged afterwards.</p>
+        </div>
+        <div className="faq-item">
+          <h3>How is delivery handled?</h3>
+          <p>Orders are processed manually and shipped via Royal Mail.</p>
+        </div>
+      </section>
     </section>
   );
 }
@@ -880,7 +906,7 @@ function Shop({ products, setCart }) {
 
       <div className="product-grid">
         {filteredProducts.map((product) => {
-          const { id, image, name, price, slug } = product;
+          const { id, image, name, price, slug ,quote } = product;
           return (
             <article key={id} className="product-card">
               <img src={image} alt={name} />
@@ -888,6 +914,12 @@ function Shop({ products, setCart }) {
                 {name}
               </Link>
               <p className="product-price">£{price}</p>
+              <i>{quote}</i>
+              
+                <Link to={`/product/${slug}`} className="product-name">
+                  <button> Learn More </button>
+                </Link>
+              
             </article>
           );
         })}
@@ -918,13 +950,43 @@ function Product({ products, setCart, setToastMsg }) {
   }
 
   return (
-    <section className="product-detail">
-      <img src={image} alt={name + id} />
-      <div className="product-detail-info">
-        <h2>{name}</h2>
+    <section className="product-page">
+      <div className="product-page-image">
+        <img src={image} alt={name + id} />
+      </div>
+
+      <div className="product-page-info">
+        <p className="eyebrow">Signature scent</p>
+        <h1>{name}</h1>
         <p className="product-price">£{price}</p>
-        <p>Color: {color}</p>
-        <p>{description}</p>
+        <p className="product-subtitle">{color}</p>
+
+        <p className="product-description">{description}</p>
+
+        <div className="product-highlights">
+          <div className="highlight-card">
+            <h3>Wear it for</h3>
+            <p>Daily use, evenings out, and special moments.</p>
+          </div>
+          <div className="highlight-card">
+            <h3>Character</h3>
+            <p>Rich, bold, and designed to leave an impression.</p>
+          </div>
+          <div className="highlight-card">
+            <h3>Style</h3>
+            <p>A modern fragrance with a premium, confident feel.</p>
+          </div>
+        </div>
+
+        <div className="product-notes">
+          <h2>What to expect</h2>
+          <ul>
+            <li>Strong presence without feeling messy.</li>
+            <li>Elegant scent profile suited for day or night.</li>
+            <li>Made to feel like a luxury-inspired fragrance choice.</li>
+          </ul>
+        </div>
+
         <button
           onClick={() => addToCart(product)}
           disabled={!inStock}
@@ -986,7 +1048,7 @@ function Cart({ cart, total, setCart }) {
           <img src={item.image} alt={item.name} />
           <div className="cart-item-info">
             <p>
-              {item.name} – £{item.price}
+              {item.name} <br /> £{(item.price) * (item.quantity)}
             </p>
             <div className="cart-qty">
               <button onClick={() => decreaseCartQuantity(item)}>-</button>
@@ -1164,7 +1226,7 @@ function Checkout({ total, cart, setCart, setToastMsg }) {
               Address line 1
             </label>
           </div>
-
+  
           <div className="input-field">
             <input
               type="text"
@@ -1239,13 +1301,81 @@ function About() {
         blends. Each fragrance is selected for its longevity and strong
         projection.
       </p>
+      <h3>Our Story</h3>
+      <p>
+      RAJA Fragrance began with a simple idea: luxury scents shouldn’t be limited to
+      luxury price tags. What started as a passion for collecting and studying
+      high‑end perfumes grew into a mission to make premium-quality fragrances
+      accessible to everyone.
+      </p>
+      <p>
+      Every bottle is crafted with care, using long-lasting oils and rich blends
+      chosen for depth, projection, and character. We believe fragrance is more than
+      a scent — it’s an identity.
+      </p>
+
+      <h3>Our Philosophy</h3>
+      <p>
+      We focus on quality over quantity. Each fragrance is selected for its
+      performance, uniqueness, and ability to leave a lasting impression. No fillers,
+      no shortcuts — just bold, confident scents designed to stand out.
+      </p>
+
+      <h3>How We Create Our Scents</h3>
+      <p>
+      Our perfumes are inspired by iconic luxury fragrances, but each blend is
+      refined to offer its own personality. We work with high-concentration oils to
+      ensure strong projection and long wear, giving you a premium experience from
+      the first spray to the final dry-down.
+      </p>
+
+      <h3>Who Our Scents Are For</h3>
+      <p>
+      RAJA Fragrance is made for people who appreciate richness, depth, and
+      confidence in a bottle. Whether you prefer sweet, smoky, woody, or fresh
+      profiles, our collection is designed to suit every mood and moment.
+      </p>
+
+      
+      {/* Prolly gon be an accordion not now  */}
+      {/* FAQ */}
       <h3>Frequently asked questions</h3>
+      <h4>Are your fragrances safe for sensitive skin?</h4>
+      <p>
+      Our perfumes use high-quality ingredients, but sensitivity varies from person
+      to person. We recommend patch testing before full use.
+      </p>
+
+      <h3>How strong are your perfumes?</h3>
+      <p>
+      Our scents are formulated for long-lasting performance with noticeable
+      projection. Most customers report 6–10 hours of wear depending on the
+      fragrance.
+      </p>
+
+      <h4>Do you offer samples?</h4>
+      <p>
+      Sample sets will be available soon so you can explore multiple scents before
+      choosing a full bottle.
+      </p>
+
+      <h4>Do the perfumes smell exactly like designer brands?</h4>
+      <p>
+      Our fragrances are inspired by luxury scents, but each blend has its own twist
+      and character. We aim for high quality, not imitation.
+      </p>
       <h4>How do I pay?</h4>
       <p>After placing your order, we will contact you to arrange payment.</p>
       <h4>How long is delivery?</h4>
       <p>Orders are delivered via Royal Mail within a few days.</p>
       <h4>Can I return items?</h4>
       <p>Returns are not accepted once items are shipped.</p>
+
+      <h3>Our Values</h3>
+      <p><strong>Transparency.</strong> Clear information, honest pricing, no hidden extras.</p>
+      <p><strong>Quality.</strong> High-concentration oils and carefully selected blends.</p>
+      <p><strong>Accessibility.</strong> Luxury-level scents without luxury-level prices.</p>
+      <p><strong>Longevity.</strong> Fragrances designed to last all day.</p>
     </section>
   );
 }
