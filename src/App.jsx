@@ -558,6 +558,7 @@ import { products } from "./products";
 import "./App.css";
 
 import heroVideo from './heroVid.mp4';
+// import { type } from "@testing-library/user-event/dist/type";
 
 
 export default function App() {
@@ -592,7 +593,7 @@ function AppLayout() {
   }, [cart]);
 
   const [toastMsg, setToastMsg] = useState(null); // Toast state is empty
-
+  // {message: '', type: 'success'||'error'||'info'}
   
   useEffect(() => {
     //  Basically if toastmsg changes wait 5 secs then change it back to null again
@@ -658,7 +659,7 @@ function AppLayout() {
         </>
       )}
 
-      {toastMsg && <Toast message={toastMsg} />}
+      {toastMsg && <Toast message={toastMsg.message} type={toastMsg.type}/>}
 
       <main className="page">
         <ScrollToTop />
@@ -894,6 +895,7 @@ function Home() {
             experience from browsing to checkout.
           </p>
         </div>
+        
 
         <div className="promise-box">
           <p>• Luxury-inspired fragrances</p>
@@ -988,7 +990,10 @@ function Product({ products, setCart, setToastMsg }) {
       }
       return [...prev, { ...item, quantity: 1 }];
     });
-    setToastMsg("Item added to cart 🛒");
+    setToastMsg({
+      message:"Item added to cart 🛒",
+      type: 'info'
+    });
   }
 
   return (
@@ -1043,12 +1048,16 @@ function Product({ products, setCart, setToastMsg }) {
 
 /* ========== TOAST ========== */
 
-function Toast({ message }) {
+function Toast({ message, type }) {
   return (
-    <div className="toast">
-      <div id="checkbox">
-        <div id="checkmark"></div>
+    <div className={`toast ${type}`}>
+      
+      <div className="icon">
+        {type === "success" && <span className="checkmark"></span>}
+        {type === "error" && <span className="cross">✕</span>}
+        {type === "info" && <span className="info">i</span>}
       </div>
+
       <p>{message}</p>
     </div>
   );
@@ -1186,13 +1195,19 @@ function Checkout({ total, cart, setCart, setToastMsg }) {
       })
       .then(() => {
         setCart([]);
-        setToastMsg(`Order #${orderId} sent! We'll contact you soon.`);
+        setToastMsg({
+          message:`Order #${orderId} sent! We'll contact you soon.`,
+          type: 'success'
+        });
         nav("/");
         form.current?.reset();
       })
       .catch(() => {
         alert("Failed to send order.");
-        setToastMsg("Unable to send order ❌");
+        setToastMsg({
+          message:"Unable to send order ",
+          type: 'error'
+        });
       });
   }
 

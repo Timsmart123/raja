@@ -231,7 +231,7 @@ nav>a:hover{
   display: none;
 }
 .nav-links.PC{
-  width: 75%;
+  width: 50%;
   margin: 0;
   display: flex;
   justify-content: space-evenly;
@@ -241,7 +241,7 @@ nav>a:hover{
 .navbar{
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   padding: 12px 24px;
   width: 100%;
   position: sticky;
@@ -255,7 +255,7 @@ nav>a:hover{
 .navbar > h2 {  color: var(--gold); }
 #nav_cart_total {  position: relative;}
 #nav_cart_total>p { display: inline; }
-.nav_cart_total{position: absolute; right: 5px; top: 10px; display: flex;}
+.nav_cart_total{position: absolute; right: 15px; top: 20px; display: flex;}
 .nav_cart_total>#cartNotif { margin-left: 10px; }
 
 .icon {
@@ -278,7 +278,7 @@ button:hover {
 } */
 
 /* Toast */
-.toast{
+/* .toast{
   border-radius: 7px;
   position: fixed;
   bottom: 7rem;
@@ -298,8 +298,8 @@ button:hover {
   width:30px;
   height:30px;
   display: inline-block;
-}
-#checkmark{
+}*/
+.checkmark{
   border-bottom: 3px solid white;
   border-right: 3px solid white;
   width: 10px;
@@ -307,6 +307,85 @@ button:hover {
   margin-left: 9px;
   padding-top: 20px;
   transform: rotate(45deg);
+} 
+
+/* TOAST BASE */
+.toast {
+  position: fixed;
+  bottom: 7rem;
+  right: 2rem;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 10px 15px;
+  border-radius: 7px;
+
+  background: rgba(20, 20, 20, 0.9);
+  color: white;
+
+  backdrop-filter: blur(10px);
+
+  transform: translateX(120%);
+  opacity: 0;
+  animation: slideIn 1s ease forwards;
+  z-index: 999;
+}
+
+/* TEXT */
+.toast p {
+  margin: 0;
+}
+
+/* ICON BASE */
+.toast > .icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 14px;
+  font-weight: bold; 
+}
+
+/* SUCCESS */
+.toast.success .icon {
+  background: #16a34a;
+}
+
+/* ERROR */
+.toast.error .icon {
+  background: #dc2626;
+}
+
+/* INFO */
+.toast.info .icon {
+  background: #2563eb;
+}
+
+/* CHECKMARK (your original idea refined) */
+/* .checkmark {
+  width: 8px;
+  height: 14px;
+  border-right: 2px solid white;
+  border-bottom: 2px solid white;
+  transform: rotate(45deg);
+} */
+
+/* ANIMATION */
+@keyframes slideIn {
+  from {
+    transform: translateX(120%) scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
 }
 /* ---------- */
 
@@ -599,7 +678,7 @@ input:-webkit-autofill:focus {
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 25px;
   width: 100%;
 }
@@ -683,6 +762,10 @@ input:-webkit-autofill:focus {
   .cart-item-info br{
     display: none;
     border: 10px solid blue;
+  }
+
+  .product-grid{
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   }
 
 }
