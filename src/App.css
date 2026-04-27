@@ -940,6 +940,9 @@ input:-webkit-autofill:focus {
 .feature-card>h3::after{
   display: none;
 }
+.product-name > button{
+  background:var(--accent)
+}
 
 /* ANIMATION */
 @keyframes fadeUp {
